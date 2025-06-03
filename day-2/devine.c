@@ -4,30 +4,47 @@
 
 int main() {
     int nombreMystere, nombreUtilisateur;
-    int essais = 0;
+    int essais, maxEssais = 10;
+    char rejouer;
 
-    // Initialisation du générateur de nombres aléatoires
-    srand(time(NULL));  // Nécessaire pour avoir un nombre différent à chaque exécution
-    nombreMystere = (rand() % 100) + 1;  // Génère un nombre entre 1 et 100
+    srand(time(NULL));  // Initialiser le générateur de nombres aléatoires
 
-    printf("Bienvenue dans le jeu du nombre mystère !\n");
-    printf("Devine un nombre entre 1 et 100.\n");
+    do {
+        // Générer un nouveau nombre mystère entre 1 et 100
+        nombreMystere = (rand() % 100) + 1;
+        essais = 0;
 
-    // Boucle de jeu
-    while (1) {
-        printf("Entre un nombre : ");
-        scanf("%d", &nombreUtilisateur);
-        essais++;
+        printf("🎯 Bienvenue dans le jeu du Nombre Mystère !\n");
+        printf("🔢 Devine un nombre entre 1 et 100 (Tu as %d essais) !\n", maxEssais);
 
-        if (nombreUtilisateur < nombreMystere) {
-            printf("Trop petit !\n");
-        } else if (nombreUtilisateur > nombreMystere) {
-            printf("Trop grand !\n");
-        } else {
-            printf("Bravo ! Tu as trouvé en %d essais !\n", essais);
-            break;  // Sortir de la boucle
+        while (essais < maxEssais) {
+            printf("👉 Essaie #%d : ", essais + 1);
+            scanf("%d", &nombreUtilisateur);
+            essais++;
+
+            if (nombreUtilisateur < nombreMystere) {
+                printf("😅 Trop petit ! Essaie encore.\n");
+            } else if (nombreUtilisateur > nombreMystere) {
+                printf("😮 Trop grand ! Ne lâche rien.\n");
+            } else {
+                printf("🎉 Bravo ! Tu as trouvé le nombre mystère en %d essai(s) !\n", essais);
+                break;
+            }
         }
-    }
+
+        if (nombreUtilisateur != nombreMystere) {
+            printf("💥 Perdu ! Le nombre mystère était %d.\n", nombreMystere);
+        }
+
+        // Demander à l'utilisateur s'il veut rejouer
+        printf("🔁 Veux-tu rejouer ? (o/n) : ");
+        scanf(" %c", &rejouer); // espace avant %c pour ignorer les retours à la ligne
+
+        printf("\n");
+
+    } while (rejouer == 'o' || rejouer == 'O');
+
+    printf("👋 Merci d'avoir joué ! À bientôt.\n");
 
     return 0;
 }
